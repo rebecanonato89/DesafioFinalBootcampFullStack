@@ -1,9 +1,31 @@
 import React, { useState }  from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { green, red } from '@material-ui/core/colors';
 import Modal from '@material-ui/core/Modal';
 import { Add } from '@material-ui/icons';
-import { Fab }  from '@material-ui/core';
+import { Fab, FormControlLabel, Radio, RadioGroup, TextField }  from '@material-ui/core';
 import './styles.css';
+
+const GreenRadio = withStyles({
+  root: {
+    color: green[400],
+    '&$checked': {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Radio color="default" {...props} />);
+
+const RedRadio = withStyles({
+  root: {
+    color: red[400],
+    '&$checked': {
+      color: red[600],
+    },
+  },
+  checked: {},
+})((props) => <Radio color="default" {...props} />);
+
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -31,11 +53,16 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    width: "320px",
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
   },
 }));
 
@@ -46,6 +73,8 @@ export default function SimpleModal({ onSubmit }) {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [value, setValue] = useState('');
+  const [type, setType] = React.useState('Despesa');
+  const [date, setDate] = useState(new Date());
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,6 +88,12 @@ export default function SimpleModal({ onSubmit }) {
     <div style={modalStyle} className={classes.paper}>
       <aside>
         <form onSubmit={handleSubmit}>
+          <strong>Inclusão de lançamento</strong>
+          <RadioGroup aria-label="gender" name="gender1" value={type} onChange={e => setType(e.target.value)} className="input-group">
+              <FormControlLabel value="-" control={<RedRadio />} label="Despesa" className="input-block" />
+              <FormControlLabel value="+" control={<GreenRadio />} label="Receita" className="input-block" />
+          </RadioGroup>
+            
           <div className="input-block">
             <label htmlFor="description">Descrição</label>
             <input 
@@ -94,7 +129,19 @@ export default function SimpleModal({ onSubmit }) {
             </div>
 
             <div className="input-block">
-              
+              <div className={classes.container} noValidate>
+                <TextField
+                  value={date}
+                  onChange={e => setDate(e.target.value)}
+                  id="date"
+                  type="date"
+                  defaultValue={"2017-05-24"}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </div>
             </div>
           </div>
 
@@ -110,10 +157,14 @@ export default function SimpleModal({ onSubmit }) {
     await onSubmit({
       description,
       category,
+      value, type,
+      date
     });
-
+    setType('');
     setDescription('');
     setCategory('');
+    setValue('');
+    setDate('');
   }
 
   return (

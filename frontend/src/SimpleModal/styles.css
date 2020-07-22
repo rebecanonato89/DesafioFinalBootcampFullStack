@@ -4,13 +4,10 @@ aside {
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
     border-radius: 2px;
     padding: 30px 20px;
-    position: 'absolute';
-    width: 400;
-    border: '2px solid #000';
   }
   
   aside strong {
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
     display: block;
     color: #333;
