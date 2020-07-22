@@ -25,7 +25,6 @@ module.exports = {
 
         let transaction = await Transaction.findOne({ description, value, category, yearMonthDay });
         if(!transaction){
-
             transaction = await Transaction.create({
                 description, 
                 value, 
@@ -38,6 +37,28 @@ module.exports = {
                 type });
         }
         return res.json({ transaction });
+    },
+
+    async update(req, res){
+        const id = req.params;
+        if(id){
+            let transaction = await Transaction.findById({ id });
+        };
+        if(transaction){
+
+        }
+    },
+
+    async delete(req, res){
+        const { id } = req.params;
+
+        const transaction = await Transaction.findById(id);
+
+        console.log(transaction);
+        if(transaction){
+            await Transaction.findById(id).deleteOne();
+        }
+        return res.status(204).send();
     }
 
 };

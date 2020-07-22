@@ -8,6 +8,8 @@ const routes = new express.Router();
 
 routes.get('/', TransactionController.index);
 routes.post('/', TransactionController.store );
+routes.post('/:id', TransactionController.update);
+routes.delete('/:id', TransactionController.delete);
 
 routes.get('/search', SearchController.index);
 
