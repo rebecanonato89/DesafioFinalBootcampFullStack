@@ -38,6 +38,12 @@ function App() {
     setDateSelected(event.target.value);
   };
 
+  async function handleAddTransaction(data) {
+    console.log(data);
+    const response = await api.post('/', data)
+    setTransactions([...transactions, response.data]);
+  }
+
   return (
     <div id="app">
       <header>
@@ -54,7 +60,7 @@ function App() {
           </NativeSelect>
         </FormControl>
 
-        <SimpleModal /> 
+        <SimpleModal onSubmit={handleAddTransaction} /> 
       </header>
       <main>
         <List>

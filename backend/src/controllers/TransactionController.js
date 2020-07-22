@@ -8,20 +8,24 @@ module.exports = {
     },
 
     async store (req, res) {
+        console.log(req.body);
         const { 
             description, 
             value, 
             category, 
-            year, 
-            month, 
-            day,
-            yearMonth, 
             yearMonthDay, 
             type 
         } = req.body;
 
-        let transaction = await Transaction.findOne({ description, value, category, year, month, day });
+        const date = yearMonthDay.split('-');
+        const year = date[0];
+        const month = date[1];
+        const day = date[2];
+        const yearMonth = year+'-'+month;
+
+        let transaction = await Transaction.findOne({ description, value, category, yearMonthDay });
         if(!transaction){
+
             transaction = await Transaction.create({
                 description, 
                 value, 
@@ -33,7 +37,7 @@ module.exports = {
                 yearMonthDay, 
                 type });
         }
-        return res.json({ message: 'Dados cadastrados com sucesso!', dados: transaction });
+        return res.json({ transaction });
     }
 
 };

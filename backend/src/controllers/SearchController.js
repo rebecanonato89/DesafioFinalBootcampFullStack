@@ -7,7 +7,7 @@ module.exports = {
        console.log(yearMonth);
         const transaction = await Transaction.find({
             yearMonth
-        });
+        }).sort({day : 1});
         console.log("Sucesso");
         return res.json({message: 'Consulta realizada com sucesso!', transaction });
     }

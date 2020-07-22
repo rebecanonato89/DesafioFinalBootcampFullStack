@@ -3,7 +3,7 @@ const { response } = require('express');
 //index, show, store, update, destroy
 module.exports = {
     async index (req, res) {
-        const yearMonth = await Transaction.distinct('yearMonth');
-        return res.json({message: 'Consulta realizada com sucesso!', yearMonth });
+        const yearMonth = await Transaction.distinct('yearMonth').sort({yearMonth : 1});
+        return res.json({ yearMonth });
     }
 };

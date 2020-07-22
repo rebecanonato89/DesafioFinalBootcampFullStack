@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200,
+    width: 150,
   },
 }));
 
@@ -74,7 +74,7 @@ export default function SimpleModal({ onSubmit }) {
   const [category, setCategory] = useState('');
   const [value, setValue] = useState('');
   const [type, setType] = React.useState('Despesa');
-  const [date, setDate] = useState(new Date());
+  const [yearMonthDay, setYearMonthDay] = useState();
 
   const handleOpen = () => {
     setOpen(true);
@@ -131,11 +131,10 @@ export default function SimpleModal({ onSubmit }) {
             <div className="input-block">
               <div className={classes.container} noValidate>
                 <TextField
-                  value={date}
-                  onChange={e => setDate(e.target.value)}
-                  id="date"
+                  value={yearMonthDay}
+                  onChange={e => setYearMonthDay(e.target.value)}
+                  id="yearMonthDay"
                   type="date"
-                  defaultValue={"2017-05-24"}
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
@@ -156,15 +155,16 @@ export default function SimpleModal({ onSubmit }) {
 
     await onSubmit({
       description,
+      value,
       category,
-      value, type,
-      date
+      yearMonthDay,  
+      type,
     });
     setType('');
     setDescription('');
     setCategory('');
     setValue('');
-    setDate('');
+    setYearMonthDay('');
   }
 
   return (
