@@ -12,18 +12,19 @@ function App() {
   const [dateSelected, setDateSelected] = useState();
 
   useEffect(() => {
-    async function loadTransaction() {
-      const response = await api.get('/search?yearMonth=2019-01');
-      setTransactions(response.data.transaction);
-    };
     async function loadDates(){
       const response = await api.get('/searchDate');
       setDates(response.data.yearMonth);
     };
+    console.log(dates[0]);
+    async function loadTransaction() {
+      const response = await api.get('/search?yearMonth='+dates[0]);
+      setTransactions(response.data.transaction);
+    };
 
     loadDates();
     loadTransaction();
-  }, []);
+  }, [dates[0]]);
 
   useEffect(() => {
     async function loadTransaction() {

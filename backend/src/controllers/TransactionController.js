@@ -13,7 +13,6 @@ module.exports = {
     },
 
     async store (req, res) {
-        console.log(req.body);
         const { 
             description, 
             value, 
@@ -23,7 +22,6 @@ module.exports = {
         } = req.body;
 
         const date = formataDate(yearMonthDay);
-
         let transaction = await Transaction.findOne({ description, value, category, yearMonthDay });
         if(!transaction){
             transaction = await Transaction.create({
@@ -69,7 +67,6 @@ module.exports = {
                         },
                         {useFindAndModify: false}
                     );
-                    console.log(transaction);
                     return res.json({ transaction });
                 }
                 return res.json({ message: "Registro não existe!" });
@@ -83,11 +80,8 @@ module.exports = {
 
     async delete(req, res){
         const { id } = req.params;
-
         try{
             const transaction = await Transaction.findById(id);
-
-            console.log(transaction);
             if(transaction){
                 await Transaction.findById(id).deleteOne();
             }

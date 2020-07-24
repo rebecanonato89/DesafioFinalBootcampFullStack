@@ -4,11 +4,9 @@ const { response } = require('express');
 module.exports = {
     async index (req, res) {
         const { yearMonth } = req.query;
-       console.log(yearMonth);
         const transaction = await Transaction.find({
             yearMonth
         }).sort({day : 1});
-        console.log("Sucesso");
-        return res.json({message: 'Consulta realizada com sucesso!', transaction });
+        return res.json({ transaction });
     }
 };

@@ -165,6 +165,7 @@ export default function SimpleModal({ onSubmit }) {
     setCategory('');
     setValue('');
     setYearMonthDay('');
+    handleClose();
   }
 
   return (
