@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../services/api';
 import { 
     ListItem, ListItemIcon, 
     ListItemSecondaryAction,
@@ -24,8 +25,20 @@ function Transaction({ transaction }) {
               };
         };
 
+    async function handleDelete(_id) {
+        console.log(_id);
+        try {
+            await api.delete('/'+_id);
+      
+            //setIncidents(incidents.filter(incident => incident.id !== id));
+          } catch (err) {
+            alert('Erro ao deletar caso, tente novamente.');
+          }
+    }
+
   return (
     <ListItem style={mystyle} className="info">
+
         <ListItemIcon>
             <Avatar>{transaction.day}</Avatar>
         </ListItemIcon>
@@ -34,13 +47,16 @@ function Transaction({ transaction }) {
             <strong>{transaction.description}</strong>  
             <span>{transaction.category}</span>
         </ListItemText>
+
         <p>R${transaction.value}</p>
+
         <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments">
-            <Edit />
+            <IconButton edge="end" aria-label="comments" >
+                <Edit />
             </IconButton>
-            <IconButton edge="end" aria-label="comments">
-            <Delete color="action" />
+
+            <IconButton edge="end" aria-label="comments" onClick={() => handleDelete(transaction._id)} type="button">
+                <Delete color="action" />
             </IconButton>
         </ListItemSecondaryAction>
 
