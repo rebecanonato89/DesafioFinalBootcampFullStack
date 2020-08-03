@@ -8,8 +8,12 @@ function formataDate(yearMonthDay){
 
 module.exports = {
     async index (req, res) {
-        const transaction = await Transaction.find();
-        return res.json(transaction);
+        try {
+            const transaction = await Transaction.find();
+            return res.status(200).json(transaction);
+        } catch (error) {
+            res.status(500).send(error);
+        }
     },
 
     async store (req, res) {
@@ -20,22 +24,25 @@ module.exports = {
             yearMonthDay, 
             type 
         } = req.body;
-
-        const date = formataDate(yearMonthDay);
-        let transaction = await Transaction.findOne({ description, value, category, yearMonthDay });
-        if(!transaction){
-            transaction = await Transaction.create({
-                description, 
-                value, 
-                category, 
-                year: date[0], 
-                month: date[1], 
-                day: date[2],
-                yearMonth: date[0]+'-'+date[1], 
-                yearMonthDay, 
-                type });
+        try {
+            const date = formataDate(yearMonthDay);
+            let transaction = await Transaction.findOne({ description, value, category, yearMonthDay });
+            if(!transaction){
+                transaction = await Transaction.create({
+                    description, 
+                    value, 
+                    category, 
+                    year: date[0], 
+                    month: date[1], 
+                    day: date[2],
+                    yearMonth: date[0]+'-'+date[1], 
+                    yearMonthDay, 
+                    type });
+            }
+            return res.status(200).json({ transaction });
+        } catch (error) {
+            res.status(500).send(error);
         }
-        return res.json({ transaction });
     },
 
     async update(req, res){
@@ -67,9 +74,9 @@ module.exports = {
                         },
                         {useFindAndModify: false}
                     );
-                    return res.json({ transaction });
+                    return res.status(200).json({ transaction });
                 }
-                return res.json({ message: "Registro não existe!" });
+                return res.status(500).json({ message: "Registro não existe!" });
             };
             
         } catch (error) {

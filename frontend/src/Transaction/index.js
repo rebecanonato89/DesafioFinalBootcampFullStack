@@ -9,13 +9,13 @@ import { Edit, Delete } from '@material-ui/icons';
 
 import './styles.css';
 
-function Transaction({ transaction }) {
+function Transaction({ transactionId }) {
 
     let mystyle = {
         backgroundColor : "#000",
 
       };
-        if(transaction.type === '-'){
+        if(transactionId.type === '-'){
             mystyle = {
                 backgroundColor : "#f0a1a8",
               };
@@ -40,22 +40,22 @@ function Transaction({ transaction }) {
     <ListItem style={mystyle} className="info">
 
         <ListItemIcon>
-            <Avatar>{transaction.day}</Avatar>
+            <Avatar>{transactionId.day}</Avatar>
         </ListItemIcon>
 
         <ListItemText className="user-info">
-            <strong>{transaction.description}</strong>  
-            <span>{transaction.category}</span>
+            <strong>{transactionId.description}</strong>  
+            <span>{transactionId.category}</span>
         </ListItemText>
 
-        <p>R${transaction.value}</p>
+        <p>R${transactionId.value}</p>
 
         <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments" >
                 <Edit />
             </IconButton>
 
-            <IconButton edge="end" aria-label="comments" onClick={() => handleDelete(transaction._id)} type="button">
+            <IconButton edge="end" aria-label="comments" onClick={() => handleDelete(transactionId._id)} type="button">
                 <Delete color="action" />
             </IconButton>
         </ListItemSecondaryAction>

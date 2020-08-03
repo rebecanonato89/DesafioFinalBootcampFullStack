@@ -16,15 +16,17 @@ function App() {
       const response = await api.get('/searchDate');
       setDates(response.data.yearMonth);
     };
-    console.log(dates[0]);
+
+    const dataInicial = dates[0];
+
     async function loadTransaction() {
-      const response = await api.get('/search?yearMonth='+dates[0]);
+      const response = await api.get('/search?yearMonth='+dataInicial);
       setTransactions(response.data.transaction);
     };
 
     loadDates();
     loadTransaction();
-  }, [dates[0]]);
+  }, [dates]);
 
   useEffect(() => {
     async function loadTransaction() {
@@ -53,7 +55,7 @@ function App() {
 
         <FormControl>
           <NativeSelect onChange={handleChange}>
-           {dates.map((date, index) =>
+           {dates.map(date =>
               <option value={date}>
                 {date}
               </option>
@@ -66,7 +68,7 @@ function App() {
       <main>
         <List>
           {transactions.map(transaction => (
-            <Transaction key={transaction._id} transaction={transaction} />
+            <Transaction key={transaction._id} transactionId={transaction} />
           ))}
         </List>
       </main>
